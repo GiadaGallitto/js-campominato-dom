@@ -8,6 +8,8 @@ buttonPlay.addEventListener("click", function(){
 
     let bombs = [];
 
+    let rightCells = [];
+
     // GENERAZIONE BOMBE A NUMERO CASUALE
     while(bombs.length < 16){
         const randomBomb = getRandomNumber(1, 100);
@@ -18,19 +20,37 @@ buttonPlay.addEventListener("click", function(){
         }  // Altrimenti vado avanti con la ricerca
     }
     console.log(bombs)
+    
+    // let win = (100 - bombs.values)
+
+    // console.log(win)
 
     for (let i = 1; i <= 100; i++){
         // Creo la cella
         const newSquare = getNewSquare(i);
 
+
         // Aggiungo event listener click della cella
+        newSquare.addEventListener("click", function(){
+
+            newSquare.classList.toggle("clicked");
+            console.log(i)
+
+            let userScore = 0;
+            if(bombs.includes(i)){
+                // GAME OVER
+                console.log("GAME OVER")
+            } else {
+                rightCells.push(i)
+                console.log(rightCells)
+            }
+        })
 
         // Aggiungo la cella alla grid
         gridContainer.appendChild(newSquare);
     }
 
 })
-
 
 // CREAZIONE QUADRATINO DELLA GRIGLIA
 function getNewSquare(content){
@@ -42,10 +62,6 @@ function getNewSquare(content){
     // Assegno il numero (elemento o indice) dell'array ad ogni quadrato
     newSquare.innerHTML = `${content}`
     
-    newSquare.addEventListener("click", function(){
-        newSquare.classList.toggle("clicked");
-        console.log(content)
-    })
 
     return newSquare
 
