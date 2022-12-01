@@ -72,7 +72,7 @@ function getNewSquare(content){
     newSquare.classList.add("square");
 
     // Assegno il numero (elemento o indice) dell'array ad ogni quadrato
-    newSquare.innerHTML = `${content}`;
+    // newSquare.innerHTML = `${content}`;
     
     return newSquare;
 
