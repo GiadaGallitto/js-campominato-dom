@@ -4,6 +4,8 @@ const buttonPlay = document.querySelector("div.div-buttons");
 
 let gameOver;
 
+const scoreContainer = document.querySelector("div.score-bar");
+
 buttonPlay.addEventListener("click", function(){
 
     gameOver = false;
@@ -13,6 +15,10 @@ buttonPlay.addEventListener("click", function(){
     let bombs = [];
 
     let score = 0;
+
+    scoreContainer.classList.remove("d-none")
+
+    printScore(score);
 
     // GENERAZIONE BOMBE A NUMERO CASUALE
     while(bombs.length < 16){
@@ -31,28 +37,22 @@ buttonPlay.addEventListener("click", function(){
         // Aggiungo event listener click della cella
         newSquare.addEventListener("click", function(){
 
-            const scorePanel = document.querySelector("div.score-bar");
-            const finalScore = document.createElement("div");
-            finalScore.classList.add("panel");
-
             if(!gameOver){
                 if(bombs.includes(i)){
                     // GAME OVER
                     gameOver = true;
                     newSquare.classList.toggle("bomb");
                     console.log("GAME OVER");
-                    finalScore.innerHTML = `${score}`
-                    scorePanel.appendChild(finalScore)
                 } else {
                     // SCELTA CELLA ESATTA
                     newSquare.classList.add("clicked");
                     console.log(i);
                     score ++;
+                    printScore(score);
                     if(score === 84){
                         // VINCITA
                         gameOver = true;
-                        finalScore.innerHTML = `HAI VINTOOOO!`
-                        scorePanel.appendChild(finalScore)
+                        printScore(`HAI VINTOOOO!`);
                         console.log("HAI COMPIUTO LA MISSIONE IMPOSSIBILE!");
                     }
                 }
@@ -63,6 +63,11 @@ buttonPlay.addEventListener("click", function(){
         gridContainer.appendChild(newSquare);
     }
 })
+
+function printScore(text){
+    const finalScore = document.querySelector("div.panel");
+    finalScore.innerHTML = text
+}
 
 // CREAZIONE QUADRATINO DELLA GRIGLIA
 function getNewSquare(content){
