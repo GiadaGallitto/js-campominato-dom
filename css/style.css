@@ -26,6 +26,11 @@ div.square{
     height: calc(100% / 10);
     border: 3px solid black;
 }
+
 .clicked{
     background-color: aquamarine;
+}
+
+.bomb{
+    background-color: red;
 }

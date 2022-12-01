@@ -2,13 +2,17 @@ const gridContainer = document.querySelector("div.grid")
 
 const buttonPlay = document.querySelector("div.div-buttons")
 
+let gameOver;
+
 buttonPlay.addEventListener("click", function(){
+
+    gameOver = false;
 
     gridContainer.innerHTML = " "
 
     let bombs = [];
 
-    let rightCells = [];
+    let score = 0;
 
     // GENERAZIONE BOMBE A NUMERO CASUALE
     while(bombs.length < 16){
@@ -20,10 +24,6 @@ buttonPlay.addEventListener("click", function(){
         }  // Altrimenti vado avanti con la ricerca
     }
     console.log(bombs)
-    
-    // let win = (100 - bombs.values)
-
-    // console.log(win)
 
     for (let i = 1; i <= 100; i++){
         // Creo la cella
@@ -33,16 +33,21 @@ buttonPlay.addEventListener("click", function(){
         // Aggiungo event listener click della cella
         newSquare.addEventListener("click", function(){
 
-            newSquare.classList.toggle("clicked");
-            console.log(i)
+            if(!gameOver){
 
-            let userScore = 0;
-            if(bombs.includes(i)){
-                // GAME OVER
-                console.log("GAME OVER")
-            } else {
-                rightCells.push(i)
-                console.log(rightCells)
+                if(bombs.includes(i)){
+                    // GAME OVER
+                    gameOver = true;
+                    newSquare.classList.toggle("bomb")
+                    console.log("GAME OVER")
+                } else {
+                    newSquare.classList.toggle("clicked");
+                    console.log(i)
+                    score ++;
+                    if(score === 84){
+                        gameOver = true;
+                    }
+                }
             }
         })
 
@@ -51,6 +56,10 @@ buttonPlay.addEventListener("click", function(){
     }
 
 })
+
+function howToWin(){
+
+}
 
 // CREAZIONE QUADRATINO DELLA GRIGLIA
 function getNewSquare(content){
