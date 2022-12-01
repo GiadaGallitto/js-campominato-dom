@@ -1,6 +1,6 @@
-const gridContainer = document.querySelector("div.grid")
+const gridContainer = document.querySelector("div.grid");
 
-const buttonPlay = document.querySelector("div.div-buttons")
+const buttonPlay = document.querySelector("div.div-buttons");
 
 let gameOver;
 
@@ -8,7 +8,7 @@ buttonPlay.addEventListener("click", function(){
 
     gameOver = false;
 
-    gridContainer.innerHTML = " "
+    gridContainer.innerHTML = " ";
 
     let bombs = [];
 
@@ -20,7 +20,7 @@ buttonPlay.addEventListener("click", function(){
 
         if(!bombs.includes(randomBomb)){
             // Allora lo aggiungo nella nuova lista
-            bombs.push(randomBomb)
+            bombs.push(randomBomb);
         }  // Altrimenti vado avanti con la ricerca
     }
     console.log(bombs)
@@ -28,24 +28,32 @@ buttonPlay.addEventListener("click", function(){
     for (let i = 1; i <= 100; i++){
         // Creo la cella
         const newSquare = getNewSquare(i);
-
-
         // Aggiungo event listener click della cella
         newSquare.addEventListener("click", function(){
 
-            if(!gameOver){
+            const scorePanel = document.querySelector("div.score-bar");
+            const finalScore = document.createElement("div");
+            finalScore.classList.add("panel");
 
+            if(!gameOver){
                 if(bombs.includes(i)){
                     // GAME OVER
                     gameOver = true;
-                    newSquare.classList.toggle("bomb")
-                    console.log("GAME OVER")
+                    newSquare.classList.toggle("bomb");
+                    console.log("GAME OVER");
+                    finalScore.innerHTML = `${score}`
+                    scorePanel.appendChild(finalScore)
                 } else {
-                    newSquare.classList.toggle("clicked");
-                    console.log(i)
+                    // SCELTA CELLA ESATTA
+                    newSquare.classList.add("clicked");
+                    console.log(i);
                     score ++;
                     if(score === 84){
+                        // VINCITA
                         gameOver = true;
+                        finalScore.innerHTML = `HAI VINTOOOO!`
+                        scorePanel.appendChild(finalScore)
+                        console.log("HAI COMPIUTO LA MISSIONE IMPOSSIBILE!");
                     }
                 }
             }
@@ -54,12 +62,7 @@ buttonPlay.addEventListener("click", function(){
         // Aggiungo la cella alla grid
         gridContainer.appendChild(newSquare);
     }
-
 })
-
-function howToWin(){
-
-}
 
 // CREAZIONE QUADRATINO DELLA GRIGLIA
 function getNewSquare(content){
@@ -69,17 +72,16 @@ function getNewSquare(content){
     newSquare.classList.add("square");
 
     // Assegno il numero (elemento o indice) dell'array ad ogni quadrato
-    newSquare.innerHTML = `${content}`
+    newSquare.innerHTML = `${content}`;
     
-
-    return newSquare
+    return newSquare;
 
 }
 
 // FUNZIONE PER GENERAZIONE NUMERO RANDOMICO
 function getRandomNumber(numMin, numMax){
     if (numMin === numMax){
-        return numMax
+        return numMax;
     }
 
     return Math.floor(Math.random() * (numMax - numMin + 1) + numMin);
